@@ -16,7 +16,13 @@
 
   <body>
 
-    <a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <a-scene    mindar-image="imageTargetSrc: ./targets.mind;" 
+                vr-mode-ui="enabled: false" 
+                device-orientation-permission-ui="enabled: false"
+                embedded
+                cursor="rayOrigin: mouse"
+                raycaster="objects: .clickable"
+    >
 
       <a-assets>
 
@@ -28,11 +34,36 @@
 
       <a-entity mindar-image-target="targetIndex: 0">
 
-        <a-gltf-model src="#ARObject" position="0 0 0.5" height="0.552" width="1" rotation="0 0 0" scale="3 3 3" animation="property: rotation; to: 0 360 0; loop: true; dur: 2000"></a-gltf-model></a-gltf-model>
+        <a-gltf-model   src="#ARObject" 
+                        position="0 0 0.5" 
+                        height="0.552" 
+                        width="1" 
+                        rotation="0 0 0" 
+                        scale="3 3 3" 
+                        animation="property: rotation; to: 0 360 0; loop: true; dur: 2000"
+                        event-set__click="_event: click; _target: #linkHandler; visible: true"
+        ></a-gltf-model></a-gltf-model>
 
       </a-entity>
 
-    </a-scene>
+      <!-- ページ遷移用の非表示エレメント -->
+      <a-entity id="linkHandler" visible="false"></a-entity>
+        
+        <!-- ページ遷移用のスクリプト -->
+        <script>
+          AFRAME.registerComponent('open-link-on-click', {
+            init: function () {
+              this.el.addEventListener('click', function () {
+                window.location.href = 'https://www.to-kon.co.jp/ja/index.html'; // ← 遷移先のURL
+              });
+            }
+          });
+        
+          document.querySelector('#linkHandler').setAttribute('open-link-on-click', '');
+        </script>
+        </a-scene>
+        
+       </a-scene>
 
   </body>
 
